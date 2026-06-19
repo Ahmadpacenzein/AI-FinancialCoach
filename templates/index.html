@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Financial Coach</title>
+    <!-- Google Fonts: Inter and Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for clean vector icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <!-- Subtle Neural Network Background Canvas -->
+    <canvas id="neuralCanvas"></canvas>
+
+    <!-- Linear Matte Glow Blobs -->
+    <div class="glow-blob glow-left"></div>
+    <div class="glow-blob glow-right"></div>
+
+    <div class="app-wrapper">
+        
+        <!-- HEADER (Apple/Linear Style) -->
+        <header class="app-header">
+            <div class="header-brand">
+                <span class="status-indicator"></span>
+                <span class="brand-title">AI Financial Coach</span>
+            </div>
+            
+            <!-- OpenAI/Siri Siri-style Fluid Voice Orb -->
+            <div class="voice-orb-wrapper" id="orbWrapper">
+                <div class="voice-orb-container">
+                    <div class="orb-fluid-blob blob-purple"></div>
+                    <div class="orb-fluid-blob blob-blue"></div>
+                    <div class="orb-fluid-blob blob-cyan"></div>
+                    <div class="orb-fluid-blob blob-magenta"></div>
+                </div>
+                <!-- Soft ripple ring -->
+                <div class="orb-ripple-overlay"></div>
+            </div>
+            
+            <div class="header-actions">
+                <span id="currentTime" class="app-time">23:19:20</span>
+                <button id="resetBtn" class="btn-minimal"><i class="fa-solid fa-arrow-rotate-left"></i> Reset</button>
+            </div>
+        </header>
+
+        <!-- MAIN APP GRID -->
+        <main class="app-grid">
+            
+            <!-- COLUMN 1: FORM INPUT (Left Panel) -->
+            <section class="app-panel panel-inputs">
+                <div class="panel-meta">
+                    <div class="panel-icon-wrap"><i class="fa-solid fa-sliders"></i></div>
+                    <h2>Parameter Finansial</h2>
+                </div>
+                
+                <div class="panel-body scrollable">
+                    <form id="financialForm" class="app-form">
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="userName">Nama</label>
+                                <input type="text" id="userName" name="name" required placeholder="Ahmad Zaini" value="Ahmad Zaini">
+                            </div>
+                            <div class="form-group">
+                                <label for="userAge">Umur</label>
+                                <input type="number" id="userAge" name="age" required min="1" max="120" placeholder="21" value="21">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="userIncome">Pendapatan Bulanan (Rp)</label>
+                            <input type="number" id="userIncome" name="income" required min="0" placeholder="Contoh: 6000000" value="6000000">
+                        </div>
+
+                        <div class="form-group">
+                            <div class="section-label-row">
+                                <label>Daftar Pengeluaran</label>
+                                <button type="button" id="addExpenseBtn" class="btn-add-item"><i class="fa-solid fa-plus"></i> Kategori</button>
+                            </div>
+                            
+                            <!-- Dynamic Expense Container -->
+                            <div id="expensesContainer" class="expenses-items-grid">
+                                <div class="expense-entry-row">
+                                    <input type="text" class="exp-name" placeholder="Kategori (Makan)" required value="Makan">
+                                    <input type="number" class="exp-val" placeholder="Jumlah (Rp)" required value="1500000">
+                                    <button type="button" class="btn-remove-entry"><i class="fa-solid fa-xmark"></i></button>
+                                </div>
+                                <div class="expense-entry-row">
+                                    <input type="text" class="exp-name" placeholder="Kategori (Transport)" required value="Transport">
+                                    <input type="number" class="exp-val" placeholder="Jumlah (Rp)" required value="700000">
+                                    <button type="button" class="btn-remove-entry"><i class="fa-solid fa-xmark"></i></button>
+                                </div>
+                                <div class="expense-entry-row">
+                                    <input type="text" class="exp-name" placeholder="Kategori (Hiburan)" required value="Hiburan">
+                                    <input type="number" class="exp-val" placeholder="Jumlah (Rp)" required value="1200000">
+                                    <button type="button" class="btn-remove-entry"><i class="fa-solid fa-xmark"></i></button>
+                                </div>
+                                <div class="expense-entry-row">
+                                    <input type="text" class="exp-name" placeholder="Kategori (Belanja)" required value="Belanja">
+                                    <input type="number" class="exp-val" placeholder="Jumlah (Rp)" required value="800000">
+                                    <button type="button" class="btn-remove-entry"><i class="fa-solid fa-xmark"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="divider"></div>
+
+                        <div class="form-group">
+                            <label for="goalName">Target Finansial (Barang)</label>
+                            <input type="text" id="goalName" name="goal_name" required placeholder="Contoh: Laptop" value="Laptop">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="goalAmount">Harga Target (Rp)</label>
+                            <input type="number" id="goalAmount" name="goal_amount" required min="0" placeholder="Contoh: 12000000" value="12000000">
+                        </div>
+
+                        <button type="submit" id="submitBtn" class="btn-primary">
+                            <span>Analisis Keuangan AI</span>
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- COLUMN 2: VISUAL DASHBOARD (Middle Panel) -->
+            <section class="app-panel panel-dashboard">
+                <div class="panel-meta">
+                    <div class="panel-icon-wrap"><i class="fa-solid fa-chart-line"></i></div>
+                    <h2>Dashboard Finansial</h2>
+                </div>
+                
+                <div id="dashboardPlaceholder" class="placeholder-screen">
+                    <div class="placeholder-icon"><i class="fa-solid fa-atom"></i></div>
+                    <h3>Siap Menganalisis</h3>
+                    <p>Masukkan data finansial Anda di panel kiri dan klik "Analisis Keuangan AI" untuk melihat profil kesehatan, statistik pengeluaran, dan visualisasi tabungan Anda.</p>
+                </div>
+
+                <div id="dashboardContent" class="panel-body scrollable hidden">
+                    
+                    <!-- SUMMARY & HEALTH SCORE -->
+                    <div class="dashboard-row double-col">
+                        
+                        <!-- Financial Summary -->
+                        <div class="matte-card anim-fade-up">
+                            <div class="card-meta"><i class="fa-solid fa-wallet"></i> Rangkuman Bulanan</div>
+                            <div class="metrics-grid">
+                                <div class="metric-block">
+                                    <span class="metric-label">Pendapatan</span>
+                                    <span id="sumIncome" class="metric-value text-green">Rp0</span>
+                                </div>
+                                <div class="metric-block">
+                                    <span class="metric-label">Total Pengeluaran</span>
+                                    <span id="sumExpenses" class="metric-value text-red">Rp0</span>
+                                </div>
+                                <div class="metric-block">
+                                    <span class="metric-label">Sisa Tabungan</span>
+                                    <span id="sumRemaining" class="metric-value text-blue">Rp0</span>
+                                </div>
+                                <div class="metric-block">
+                                    <span class="metric-label">Rasio Menabung (Saving Rate)</span>
+                                    <span id="sumSavingRate" class="metric-value text-purple">0%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Financial Health Score -->
+                        <div class="matte-card anim-fade-up">
+                            <div class="card-meta"><i class="fa-solid fa-heart-pulse"></i> Skor Kesehatan Keuangan</div>
+                            <div class="health-score-layout">
+                                <div class="circular-progress-wrap">
+                                    <svg viewBox="0 0 100 100">
+                                        <circle class="circle-track" cx="50" cy="50" r="42"></circle>
+                                        <circle id="scoreCircleProgress" class="circle-indicator" cx="50" cy="50" r="42"></circle>
+                                    </svg>
+                                    <div class="circle-text">
+                                        <span id="healthScoreNum" class="score-figure">0</span>
+                                        <span class="score-total">/100</span>
+                                    </div>
+                                </div>
+                                <div class="health-labels">
+                                    <div id="healthScoreLabel" class="health-badge">SANGAT BAIK</div>
+                                    <p id="healthScoreDesc" class="health-summary">Kondisi sistem stabil.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- SPENDING BREAKDOWN & GOAL ANALYSIS -->
+                    <div class="dashboard-row double-col">
+                        
+                        <!-- Spending Breakdown -->
+                        <div class="matte-card anim-fade-up">
+                            <div class="card-meta"><i class="fa-solid fa-chart-pie"></i> Pola Pengeluaran</div>
+                            <div class="card-body">
+                                <p id="spendingAnalysisText" class="narrative-text">Menganalisis pengeluaran...</p>
+                                <div id="categoryBarsList" class="bars-stack">
+                                    <!-- Dynamic category rows -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Goal Planning -->
+                        <div class="matte-card anim-fade-up">
+                            <div class="card-meta"><i class="fa-solid fa-bullseye"></i> Rencana Pembelian</div>
+                            <div class="card-body">
+                                <div class="goal-profile">
+                                    <div>
+                                        <span class="profile-label">Barang Target</span>
+                                        <span id="dashGoalName" class="profile-value">Laptop</span>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="profile-label">Harga</span>
+                                        <span id="dashGoalPrice" class="profile-value text-purple">Rp0</span>
+                                    </div>
+                                </div>
+                                <p id="goalAnalysisText" class="narrative-text">Menghitung jangka waktu...</p>
+                                <div class="progress-bar-container">
+                                    <div class="progress-track">
+                                        <div id="goalProgressBar" class="progress-fill"></div>
+                                    </div>
+                                    <div class="progress-indicator">
+                                        Estimasi: <span id="goalMonthsResult" class="highlight-value">0</span> Bulan
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- LINE CHART (SAVINGS TIMELINE) -->
+                    <div class="matte-card anim-fade-up">
+                        <div class="card-meta"><i class="fa-solid fa-chart-area"></i> Proyeksi Tabungan (12 Bulan)</div>
+                        <div class="chart-area-wrap">
+                            <div id="svgChartWrapper" class="chart-svg-box">
+                                <!-- Dynamic SVG line chart -->
+                            </div>
+                            <div class="chart-legend-box">
+                                <div class="legend-item"><span class="legend-line line-blue"></span> Proyeksi Saat Ini</div>
+                                <div class="legend-item"><span class="legend-line line-green"></span> Proyeksi Ideal (50/30/20)</div>
+                                <div class="legend-item"><span class="legend-line line-dashed-orange"></span> Target Harga</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI DETAILED RECOMMENDATIONS -->
+                    <div class="matte-card anim-fade-up">
+                        <div class="card-meta"><i class="fa-solid fa-lightbulb"></i> Rekomendasi Cerdas AI</div>
+                        <div class="card-body">
+                            <div id="budgetMethodSuggestion" class="banner-suggestion">
+                                Membandingkan dengan alokasi ideal 50/30/20...
+                            </div>
+                            <div id="aiRecommendationsMarkdown" class="markdown-container">
+                                Memproses rekomendasi cerdas dari LLM...
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- COLUMN 3: AI COACH CHAT CONSOLE (Right Panel) -->
+            <section class="app-panel panel-chat">
+                <div class="panel-meta">
+                    <div class="panel-icon-wrap"><i class="fa-solid fa-comments"></i></div>
+                    <h2>Konsultasi AI Coach</h2>
+                </div>
+                
+                <div class="chat-layout">
+                    
+                    <!-- Chat Area -->
+                    <div id="chatMessages" class="chat-feed scrollable">
+                        <div class="chat-bubble assistant">
+                            <span class="bubble-sender">AI Financial Coach</span>
+                            <div class="bubble-content">
+                                Halo! Saya adalah AI Financial Coach Anda. Setelah Anda memasukkan parameter keuangan Anda di panel kiri dan menekan tombol analisis, saya dapat membantu Anda menjawab segala pertanyaan keuangan, menyusun strategi penghematan, serta merencanakan investasi untuk mencapai target finansial Anda.
+                            </div>
+                            <span class="bubble-time">SYSTEM CONSOLE READY</span>
+                        </div>
+                    </div>
+
+                    <!-- Thinking dots -->
+                    <div id="chatThinking" class="chat-typing-status hidden">
+                        <span class="typing-dot"></span>
+                        <span class="typing-dot"></span>
+                        <span class="typing-dot"></span>
+                        <span class="typing-label">AI Coach sedang mengetik...</span>
+                    </div>
+                    
+                    <!-- Chat Input -->
+                    <form id="chatForm" class="chat-input-row">
+                        <input type="text" id="chatInput" autocomplete="off" placeholder="Tanyakan tentang investasi atau tips hemat..." disabled>
+                        <button type="submit" id="chatSendBtn" disabled><i class="fa-solid fa-paper-plane"></i></button>
+                    </form>
+
+                </div>
+            </section>
+
+        </main>
+        
+        <!-- FOOTER -->
+        <footer class="app-footer">
+            <div class="footer-left">
+                <span>STATUS: <span class="status-badge green">CONNECTED</span></span>
+                <span class="vertical-divider"></span>
+                <span>ENGINE: LANGGRAPH + LLAMA CORE</span>
+            </div>
+            <div class="footer-right">
+                <span>© 2026 DEEPMIND AI COACH</span>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Script -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
