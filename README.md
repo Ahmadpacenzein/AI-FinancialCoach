@@ -170,5 +170,4 @@ Ikuti langkah-langkah berikut untuk menjalankan proyek AI Financial Coach secara
    ```
 
 ## Kesimpulan
-
-Sistem AI Financial Coach telah berhasil diimplementasikan dengan memanfaatkan Natural Language Processing menggunakan Large Language Model lokal yang terintegrasi secara harmonis dengan framework LangChain, LangGraph, dan LangSmith. Penggunaan LangGraph memungkinkan pemrosesan status finansial secara deterministik dan terarah, sementara LangChain menyederhanakan komunikasi dengan LLM lokal. Keberadaan LangSmith memastikan bahwa keseluruhan operasi model bahasa dapat diawasi, dianalisis, dan dievaluasi secara real-time guna mendukung pengembangan sistem kecerdasan buatan yang transparan dan andal.
+Silahkan Mencoba yakkk...😘
