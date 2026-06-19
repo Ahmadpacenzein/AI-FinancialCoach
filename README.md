@@ -48,30 +48,7 @@ LangChain berperan sebagai fondasi untuk mengelola interaksi dengan model bahasa
 
 LangGraph digunakan untuk menyusun workflow pengolahan data keuangan berbasis status (*state-driven development*). Alur workflow LangGraph dalam sistem ini didefinisikan sebagai berikut:
 
-```
-  START
-    │
-    ▼
-[Input Financial Data]  (Node 1: Validasi data input pengguna)
-    │
-    ▼
-[Financial Summary]     (Node 2: Kalkulasi total pengeluaran dan saving rate)
-    │
-    ▼
-[Spending Analysis]     (Node 3: Evaluasi pola pengeluaran non-primer)
-    │
-    ▼
-[Goal Planning]         (Node 4: Estimasi waktu pencapaian target menabung)
-    │
-    ▼
-[AI Recommendation]     (Node 5: Pemrosesan saran dari LLM berdasarkan profil data)
-    │
-    ▼
-[Generate Response]     (Node 6: Kompilasi seluruh laporan ke dalam state akhir)
-    │
-    ▼
-   END
-```
+![Alur Workflow LangGraph](gambar/alur_langgraph.png)
 
 Melalui LangGraph, setiap node merepresentasikan satu fungsi spesifik yang memperbarui objek status keuangan (*FinancialState*), sehingga seluruh alur pemrosesan data dapat dikontrol secara presisi dan modular.
 
