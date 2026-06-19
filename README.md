@@ -31,30 +31,8 @@ Aplikasi AI Financial Coach memiliki beberapa fitur utama sebagai berikut:
 
 Alur komunikasi dan pengolahan data dalam sistem AI Financial Coach berjalan sesuai dengan diagram arsitektur berikut:
 
-```
-User (Pengguna)
-  │
-  ▼
-HTML Interface (Frontend)
-  │
-  ▼
-Flask Backend (Python)
-  │
-  ▼
-LangGraph Workflow (State Management)
-  │
-  ▼
-LangChain (Orchestrator LLM)
-  │
-  ▼
-Gemma 3 4B via Ollama (Model AI Lokal)
-  │
-  ▼
-Response (Feedback)
-  │
-  ▼
-User (Pengguna)
-```
+![Alur Komunikasi dan Pengolahan Data](gambar/Alur%20komunikasi%20dan%20pengolahan%20data.drawio.png)
+*Gambar: Alur komunikasi dan pengolahan data pada sistem AI Financial Coach.*
 
 ## Implementasi LangChain
 
