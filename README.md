@@ -1,4 +1,5 @@
 # AI Financial Coach
+by Ahmad Zaini
 
 ## Deskripsi Proyek
 
